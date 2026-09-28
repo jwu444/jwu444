@@ -1,64 +1,73 @@
-## Hi, I'm <!-- TODO: your name -->
+## Hi, I'm Justin Wu
 
-<!-- TODO: adjust the wording if you want, but this is the agreed positioning. -->
-Applied AI engineer working across data science and machine learning, from the pipeline through to the application. Open to internships in AI/ML engineering, data engineering, and data science.
+**AI-Native Product Builder**
+Outcome-driven, human-centric applied AI in machine learning, data science, and data analytics.
 
-I work in **applied AI across data science and machine learning**, and I ship it two ways: as **end-to-end data pipelines** and as **full-stack applications** people actually use. Three projects below, in the order I would want them read. Each one is a complete working system rather than a notebook.
+I build end-to-end data and machine learning products that solve real-world problems, from the pipeline to the interface people use. I bring listening, communication, empathy, and organization skills built over years of tutoring, coaching, and volunteer leadership.
 
----
-
-### [Healthcare Revenue Cycle Assistant](https://github.com/jwu444/databricks-healthcare-revenue-cycle-assistant)
-
-`Databricks` · `Unity Catalog` · `Delta Lake` · `Vector Search` · `Genie` · `Asset Bundles`
-
-A six-part build on Databricks for a multi-location dental practice, organized around one split: **structured data answers _"what happened in our practice?"_, documents answer _"how is this work done?"_** — and neither can answer the other's question.
-
-- **Medallion** bronze → silver → gold across 20 tables and ~50k rows of synthetic data, an AI/BI dashboard, and CI/CD through Declarative Asset Bundles
-- **RAG** over 31 practice-management PDFs: `ai_parse_document` → semantic chunking → Delta Sync vector index with managed embeddings
-- **Genie agent** over the silver tables, answering in plain English with the SQL shown
-
-The lesson the project is built around: **Genie accuracy is a metadata problem, not a model problem.** A better model writes better SQL *given the same understanding of the schema* — it cannot guess that a benefit year starts on September 1 rather than January 1, or that a denial code stores the literal string `'N/A'` instead of NULL. Table comments and a value inventory moved it further than a model swap would have.
-
-Retrieval was measured, not assumed: answerable questions returned the right source document at 0.70–0.76, while a deliberately unanswerable data question scored **0.54** — a visible cliff that says *this is a question for the tables, not the documents*.
+Cognitive Science student at UC San Diego (Machine Learning and Neural Computation), graduating June 2028. Open to internships in AI/ML engineering, data science, and data analytics.
 
 ---
 
-### [ML Experiment Tracker](https://github.com/jwu444/ml-experiment-tracker-mlflow-optuna) · **[live demo](https://wavepoint-web.onrender.com)**
+### [Healthcare Revenue Cycle Assistant on Databricks](https://github.com/jwu444/databricks-healthcare-revenue-cycle-assistant)
 
-`MLflow` · `Optuna` · `Postgres + pgvector` · `scikit-learn` · `FastAPI` · `React` · `OpenTelemetry`
+`Databricks` · `Unity Catalog` · `Delta Lake` · `PySpark` · `SQL` · `Vector Search` · `Genie` · `AI/BI dashboards` · `Asset Bundles` · `Python`
 
-Training runs logged to MLflow, hyperparameter search driven by Optuna, semantic retrieval over experiment history, and an agent that reads what you have already tried and recommends what to run next. The working domain is computer-component pricing and demand.
+An analytics and AI assistant for a multi-office dental group.
 
-Forked from the CSV assistant below, which made the inherited design decisions explicit rather than incidental — the upload-and-ask flow and the judge-gated loop carry over unchanged.
+- A medallion data pipeline that transforms raw CSVs into Bronze, Silver, and Gold Delta tables powering an AI/BI dashboard.
+- RAG over practice-management documentation, so operational how-to answers are grounded in relevant source content.
+- A Databricks Genie agent for natural-language analytics over curated data, with accuracy improved through richer metadata and semantic context.
+- A multi-agent supervisor application that orchestrates the RAG and Genie agents to answer real-world questions across structured and unstructured data.
 
-Deployed on Render with models in Cloudflare R2, because free-tier disks are wiped on every deploy. The runbook documents the deployment step by step, including the three failures that cost the most time.
+### [ML Experiment Tracker with Continuous Learning](https://github.com/jwu444/ml-experiment-tracker-mlflow-optuna) · [live demo](https://wavepoint-web.onrender.com)
 
-> **Cold start:** the demo sleeps after ~15 minutes idle, so the first request takes about 50 seconds. It is cold, not broken.
+`FastAPI` · `React` · `TypeScript` · `PostgreSQL` · `pgvector` · `MLflow` · `Optuna` · `scikit-learn` · `Claude API` · `OpenTelemetry` · `Docker`
 
----
+An AI-assisted experimentation platform that continuously learns from model runs and user feedback to improve tuning recommendations.
 
-### [CSV Analysis Assistant](https://github.com/jwu444/csv-analysis-assistant-fastapi-react)
+- An AI-assisted model tuning loop with MLflow, Optuna, and Claude that analyzes prior experiments and recommends the next configurations to test.
+- A RAG layer on pgvector over experiment history and human-reviewed run notes and findings, so successful decisions, failed attempts, and human evaluations compound into better recommendations.
+- Evaluation guardrails for retrieval: a labeled test set and baseline comparisons, with changes promoted only when they showed measurable improvement.
 
-`FastAPI` · `React + Vite` · `Claude tool-calling` · `pandas` · `SQLAlchemy`
+> The demo sleeps after about 15 minutes idle, so the first request takes about 50 seconds.
 
-The origin project the other two compound on. Upload a CSV, ask a question in plain language, get charts, statistics, and a written interpretation.
+### [Data Exploration and Analysis Assistant](https://github.com/jwu444/csv-analysis-assistant-fastapi-react)
 
-The part worth reading the code for is the **judge-gated loop**. An analyst pass selects chart tools from a fixed menu and writes an interpretation; a *separate* judge pass then scores that attempt 0–100 against the charts and statistics that **actually rendered** — not a prediction of them. The loop feeds the analyst its own prior attempt plus the judge's feedback and repeats until the score clears a threshold or a pass cap is hit, then returns the **best-scoring** pass rather than the last one.
+`FastAPI` · `React` · `Vite` · `PostgreSQL` · `SQLAlchemy` · `Alembic` · `Claude API with tool calling` · `pandas` · `matplotlib` · `pytest` · `Vitest`
 
-A fixed tool menu instead of generated code means no arbitrary execution, and a chat can span multiple datasets with an explicit `compare` tool across exactly two.
+An AI-assisted data exploration and analysis tool that turns uploaded datasets into charts, statistics, and natural-language insights.
+
+- An AI-driven analysis workflow that profiles uploaded CSVs, identifies relevant analytical paths, selects appropriate charts and statistics, and generates plain-English interpretations.
+- An analyst-and-judge loop: one agent performs the exploration and analysis, and a second evaluates the output against the rendered results and selects the highest-quality response.
+- The AI is restricted to a governed set of analysis tools rather than arbitrary code execution, with versioned prompts, shared UI components, and automated backend and frontend testing.
 
 ---
 
 ### How I work
 
-A few principles these repos were actually built on, not aspirations:
+All three projects were built in a GitHub-based, AI-native product development lifecycle:
 
-- **Verify, don't assume.** Value inventories, schema shapes, and date boundaries were executed against the live workspace before being written down — and several turned out different from what the documentation implied.
-- **Cost is a design constraint.** A vector search endpoint bills continuously with no pause, so the expensive work lives in durable tables and only the disposable part gets torn down. Billing resources are never declared silently in a bundle.
-- **Honest failure beats a confident guess.** *"Which patients will no-show next month?"* gets declined, because the data records what happened, not what will.
+- I own the goals, architecture, design, and verification, and steer coding agents through rapid implementation cycles.
+- Every change runs through GitHub issues, pull requests, reviews, automated tests, and CI, with clear acceptance criteria to guide and validate agent-generated changes.
+- Project context and design decisions are versioned in GitHub, and a custom Claude Code skill runs the full CI pipeline locally.
+
+### Experience
+
+- **Wave Point (WVPoint LLC)**, AI Engineering & Startup Intern · Jun 2026 – Sep 2026. A 12-week, full-time AI engineering program at an early-stage startup that builds AI automation for small business owners; the three projects above.
+- **Neoboard**, AI Researcher & Engineer Intern · Jan 2026 – Jun 2026. AI citation verification for academic writing.
+- **Carrette Lab, UC San Diego**, Undergraduate Research Intern · Jan 2025 – Dec 2025. Predicting behavioral outcomes from neuroimaging data.
+
+### Skills
+
+**Machine learning:** Regression (LASSO, Ridge, Elastic Net), classification, PCA, LDA, feature engineering, cross-validation, hyperparameter tuning, model and retrieval evaluation (MRR, precision@k, recall@k), fine-tuning (SciBERT, Hugging Face, PyTorch), NLP (spaCy)
+
+**Data and analytics:** Python (pandas, NumPy, scikit-learn, matplotlib), SQL, R (glmnet, tidyverse, ggplot2), MATLAB, PostgreSQL, Databricks (Unity Catalog, Delta Lake, PySpark, AI/BI dashboards), MLflow, Optuna, Tableau, Power BI
+
+**AI and LLMs:** RAG, vector search (pgvector, Databricks Vector Search), agents and tool use, prompt engineering, Claude, OpenAI, and Gemini APIs, AI-native development with Claude Code
+
+**Product engineering:** FastAPI, REST API design, React, TypeScript, UI design systems, Docker, GitHub Actions CI, pytest, Vitest, OpenTelemetry, Render, Git
 
 ---
 
-<!-- TODO: contact row — delete what you don't want public.
-     [LinkedIn](https://linkedin.com/in/...) · [Email](mailto:...) · [Website](https://...)
--->
+[LinkedIn](https://www.linkedin.com/in/justin-wu-fairfax-va/)
